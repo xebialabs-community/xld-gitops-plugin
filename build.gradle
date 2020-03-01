@@ -20,7 +20,7 @@ repositories {
     }
 }
 
-def apiVersion = "2018.6.5"
+def apiVersion = "2019.3.4"
 
 dependencies {
     compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
@@ -32,7 +32,7 @@ dependencies {
     compile 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    compile files('locallib/local-booter-2019.3.4.jar')
+    compile files('locallib/local-booter-2019.3.4.jar','locallib/xl-utils-2019.3.4.jar')
 }
 
 test {

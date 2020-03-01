@@ -13,3 +13,7 @@ bin
 xl-deploy-8.5.4-server
 xl-deploy-9.5.2-server
 classes/
+.classpath
+.project
+.idea/
+

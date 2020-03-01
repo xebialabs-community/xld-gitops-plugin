@@ -10,6 +10,7 @@
 package ext.deployit.xldeploy.gitops;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import com.xebialabs.deployit.booter.local.LocalBooter;
@@ -20,17 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GitClientTest {
 
-
-    @BeforeClass
-    public static void boot() {
-        LocalBooter.bootWithoutGlobalContext();
-    }
-
-
     @Test
     void getLatestRevision() throws GitAPIException {
         LocalBooter.bootWithoutGlobalContext();
-        GitRepository gitRepository = new GitRepository("https://github.com/bmoussaud/petclinic-gitops", "maste", "./petclinic.yaml", null);
-        new GitClient(gitRepository).getLatestRevision();
+        GitRepository gitRepository = new GitRepository("https://github.com/bmoussaud/petclinic-gitops", "master", "./petclinic.yaml", null);
+        GitClient gitClient = new GitClient(gitRepository);
+        String latestRevision = gitClient.getLatestRevision();
+        System.out.println(latestRevision);
+        ObjectId latestRevisionObjectId = gitClient.getLatestRevisionObjectId();
+        System.out.println("latestRevisionObjectId = " + latestRevisionObjectId);
     }
 }

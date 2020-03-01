@@ -14,7 +14,7 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <type type="gitops.GitRepository" extends="udm.Configuration">
+    <type type="gitops.OldGitRepository" extends="udm.Configuration">
         <property name="url" />
         <property name="username" required="false" description="Username used to connect to the repository"/>
         <property name="password" required="false" password="true" description="Password used to connect to the repository"/>
