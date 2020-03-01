@@ -24,15 +24,17 @@ def apiVersion = "2019.3.4"
 
 dependencies {
     compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
-
-
     compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.6.1.202002131546-r'
+
 
     compile "org.slf4j:slf4j-api:1.7.25"
     compile 'junit:junit:4.12'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    compile files('locallib/local-booter-2019.3.4.jar','locallib/xl-utils-2019.3.4.jar')
+    testCompile files('locallib/local-booter-2019.3.4.jar','locallib/xl-utils-2019.3.4.jar')
+
+    distBundle group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.6.1.202002131546-r'
 }
 
 test {

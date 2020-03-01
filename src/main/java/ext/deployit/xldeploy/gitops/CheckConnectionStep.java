@@ -9,51 +9,34 @@
  */
 package ext.deployit.xldeploy.gitops;
 
+import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
 import com.xebialabs.deployit.plugin.api.flow.Step;
-import com.xebialabs.deployit.plugin.api.udm.*;
-import org.eclipse.jgit.api.errors.GitAPIException;
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+public class CheckConnectionStep implements Step {
 
-@SuppressWarnings("serial")
-@Metadata(root = Metadata.ConfigurationItemRoot.CONFIGURATION)
-public class GitRepository extends Configuration {
+    private final GitRepository gitRepository;
 
-    @Property(required = true)
-    private String url;
-
-    @Property(required = true,defaultValue = "master")
-    private String branch;
-
-    @Property(required = true)
-    private String path;
-
-    @Property(required = true)
-    private String latestCommitId;
-
-    public  GitRepository() {
-
+    public CheckConnectionStep(GitRepository gitRepository) {
+        this.gitRepository = gitRepository;
     }
 
-    public GitRepository(String url, String branch, String path, String latestCommitId) {
-        this.url = url;
-        this.branch = branch;
-        this.path = path;
-        this.latestCommitId = latestCommitId;
+    @Override
+    public int getOrder() {
+        return 10;
     }
 
-    public String getBranch() {
-        return branch;
+    @Override
+    public String getDescription() {
+        return "Check the connection to the Git Repository";
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    @ControlTask(description = "Check Connection to the Git Repositoy")
-    public List<Step> checkConnection()  {
-        return Arrays.asList(new CheckConnectionStep(this));
+    @Override
+    public StepExitCode execute(ExecutionContext executionContext) throws Exception {
+        GitClient gitClient = new GitClient(this.gitRepository);
+        executionContext.logOutput("Connect to " + this.gitRepository.getUrl() + "/" + this.gitRepository.getBranch());
+        String latestRevision = gitClient.getLatestRevision();
+        executionContext.logOutput("latestRevision = " + latestRevision);
+        return StepExitCode.SUCCESS;
     }
 }
