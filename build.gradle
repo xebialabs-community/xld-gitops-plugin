@@ -24,33 +24,22 @@ def apiVersion = "2019.3.4"
 
 dependencies {
     compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
-    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.6.1.202002131546-r'
-
+    compile group: 'com.xebialabs.overthere', name: 'overtherepy', version: '0.0.4'
 
     compile "org.slf4j:slf4j-api:1.7.25"
     compile 'junit:junit:4.12'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    testCompile files('locallib/local-booter-2019.3.4.jar','locallib/xl-utils-2019.3.4.jar')
-
-    distBundle group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.6.1.202002131546-r'
+    distBundle group: 'com.xebialabs.overthere', name: 'overtherepy', version: '0.0.4'
 }
 
 test {
     useJUnitPlatform()
 }
 
-// sourceCompatibility = 1.7
-// targetCompatibility = 1.7
-
-xlDocker {
-    compileImage = 'xebialabs/xlr_dev_compile'
-    compileVersion = 'v8.5.0.1'
-    runImage = 'xebialabs/xlr_dev_run'
-    runVersion = 'v8.5.0.1'
-    runPortMapping = '15516:5516'
-}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 processResources.configure {

@@ -14,11 +14,6 @@
            xmlns="http://www.xebialabs.com/deployit/endpoints"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/endpoints endpoints.xsd">
 
-    <!--
-    <endpoint path="/type-migrator/getApps" method="GET" script="typeMigrator/getApplications.py" />
-    <endpoint path="/type-migrator/getVers" method="GET" script="typeMigrator/getVersions.py" />
-    <endpoint path="/type-migrator/migrateDeployables" method="GET" script="typeMigrator/migrateDeployables.py" />
-    <endpoint path="/type-migrator/migrateDeployeds" method="GET" script="typeMigrator/migrateDeployeds.py" />
--->
+
 </endpoints>
 

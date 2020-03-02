@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
 
     Copyright 2020 XEBIALABS
@@ -10,15 +10,24 @@
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -->
-<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xmlns="http://www.xebialabs.com/deployit/synthetic"
-           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+<!--
+Note: If you modify this file, you must restart the XL Deploy server.
+-->
+<synthetic xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd" xmlns="http://www.xebialabs.com/deployit/synthetic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <type type="gitops.OldGitRepository" extends="udm.Configuration">
-        <property name="url" />
-        <property name="username" required="false" description="Username used to connect to the repository"/>
-        <property name="password" required="false" password="true" description="Password used to connect to the repository"/>
-        <property name="path" />
-        <property name="latestCommitId" required="false" description="SHA1 hash of the commit"/>
-    </type>
+  <type type="gitops.GitRepository" extends="udm.Configuration">
+    <property name="url"/>
+    <property name="username" required="false"/>
+    <property name="password" required="false" password="true"/>
+    <property name="host" referenced-type="overthere.Host" kind="ci" description="use this host to run all the commands" />
+  </type>
+
+  <type type="gitops.Deployment" extends="schedule.StepJob">
+    <property name="schedule" default="*/10 * * * * *" description="The pattern is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday. Month and weekday names can be given as the first three letters of the English names.Example patterns: '0 0 * * * *' = the top of every hour of every day, '0 0 14 * * SAT,SUN' = 14 o'clock on each weekend day, '0 0 9-17 * * MON-FRI' = on the hour nine-to-five weekdays, '0 0 0 1 * *' = every 1st of month at midnight."/>
+    <property name="repository" kind="ci" referenced-type="gitops.GitRepository"/>
+    <property name="branch"/>
+    <property name="latestCommitId" required="false" description="SHA1 hash of the commit"/>
+    <property name="path" />
+    <method name="executeJob"  label="Apply" delegate="jythonScript" script="gitops/deploy.py"/>
+  </type>
 </synthetic>

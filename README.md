@@ -26,8 +26,10 @@ Note:  XLD or XLR version should not be lower than lowest supported version.  Se
 
 ## Installation
 
-* Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xld-gitops-plugin/releases) into the `XL_DEPLOY|RELEASE_SERVER/plugins` directory.
+* Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xld-gitops-plugin/releases) into the `XL_DEPLOY_SERVER/plugins` directory.
+* Add [https://github.com/xebialabs-community/overthere-pylib/releases/tag/v0.0.4](https://github.com/xebialabs-community/overthere-pylib/releases/download/v0.0.4/overtherepy-0.0.4.jar) to your plugin directory 
 * Restart the XL Deploy|Release server.
+
 
 ## Features/Usage/Types/Tasks
 

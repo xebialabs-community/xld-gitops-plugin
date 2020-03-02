@@ -1,0 +1,16 @@
+#set -x
+
+LAST_COMMIT=`git ls-remote ${job_repository_url} refs/heads/${job_branch} |  cut -f1`
+echo $LAST_COMMIT
+if [ "$LAST_COMMIT" = "${job_latestCommitId}" ]; then
+    echo "Same commit id... exit" 
+    exit 0
+fi
+
+git clone ${job_repository_url} $LAST_COMMIT
+cd $LAST_COMMIT
+git checkout ${job_branch}
+xl --config ./config.yaml apply -f ${job_path}
+
+
+
