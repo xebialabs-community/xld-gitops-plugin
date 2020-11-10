@@ -1,0 +1,120 @@
+---
+apiVersion: xl-deploy/v1
+kind: Applications
+spec:
+- directory: Applications/Java
+  children:
+  - name: PetPortal
+    type: udm.Application
+    children:
+    - name: 1.0.4
+      type: udm.DeploymentPackage
+      deployables:
+      - name: petclinic
+        type: jee.War
+        scanPlaceholders: true
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.4/petclinic/PetClinic.war"
+      - name: testPage
+        type: smoketest.HttpRequestTest
+        url: '{{smoke.test.url}}'
+        expectedResponseText: '{{TITLE}}'
+    - name: 1.0.1
+      type: udm.DeploymentPackage
+      deployables:
+      - name: petclinic-backend
+        type: jee.War
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.1/petclinic-backend/PetClinic-Backend.war"
+      - name: testPage
+        type: smoketest.HttpRequestTest
+        url: '{{smoke.test.url}}'
+        expectedResponseText: '{{TITLE}}'
+      - name: petclinic
+        type: jee.War
+        scanPlaceholders: true
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.1/petclinic/PetClinic.war"
+      - name: sql
+        type: sql.SqlScripts
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.1/sql/sql.zip"
+      - name: petDataSource
+        type: jee.DataSourceSpec
+        jndiName: jdbc/petds
+    - name: 1.0.5
+      type: udm.DeploymentPackage
+      deployables:
+      - name: petclinic
+        type: jee.War
+        scanPlaceholders: true
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.5/petclinic/PetClinic.war"
+      - name: testPage
+        type: smoketest.HttpRequestTest
+        url: '{{smoke.test.url}}'
+        expectedResponseText: '{{TITLE}}'
+    - name: 1.0.2
+      type: udm.DeploymentPackage
+      deployables:
+      - name: sql
+        type: sql.SqlScripts
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.2/sql/sql.zip"
+      - name: testPage
+        type: smoketest.HttpRequestTest
+        url: '{{smoke.test.url}}'
+        expectedResponseText: '{{TITLE}}'
+      - name: petclinic-backend
+        type: jee.War
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.2/petclinic-backend/PetClinic-Backend.war"
+      - name: petclinic
+        type: jee.War
+        scanPlaceholders: true
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.2/petclinic/PetClinic.war"
+      - name: petDataSource
+        type: jee.DataSourceSpec
+        jndiName: jdbc/petds
+    - name: 1.0.6
+      type: udm.DeploymentPackage
+      deployables:
+      - name: testPage
+        type: smoketest.HttpRequestTest
+        url: '{{smoke.test.url}}'
+        expectedResponseText: '{{TITLE}}'
+      - name: petclinic
+        type: jee.War
+        scanPlaceholders: true
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.6/petclinic/PetClinic.war"
+    - name: 1.0.3
+      type: udm.DeploymentPackage
+      deployables:
+      - name: sql
+        type: sql.SqlScripts
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.3/sql/sql.zip"
+      - name: petclinic-backend
+        type: jee.War
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.3/petclinic-backend/PetClinic-Backend.war"
+      - name: petDataSource
+        type: jee.DataSourceSpec
+        jndiName: jdbc/petds
+      - name: petclinic
+        type: jee.War
+        scanPlaceholders: true
+        placeholders:
+        - TITLE
+        file: !file "artifacts/Applications/Java/PetPortal/1.0.3/petclinic/PetClinic.war"
+      - name: testPage
+        type: smoketest.HttpRequestTest
+        url: '{{smoke.test.url}}'
+        expectedResponseText: '{{TITLE}}'

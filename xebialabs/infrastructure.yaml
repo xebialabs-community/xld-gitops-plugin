@@ -1,0 +1,62 @@
+---
+apiVersion: xl-deploy/v1
+kind: Infrastructure
+spec:
+- directory: Infrastructure/AsCode
+  children:
+  - name: host-vm
+    type: overthere.SshHost
+    os: UNIX
+    address: deployit.vm
+    username: ubuntu
+    password: !value "Infrastructure_AsCode_host_vm_password"
+    children:
+    - name: tomcat
+      type: tomcat.Server
+      home: /home/ubuntu/tomcat/tomcat-as-code
+      startCommand: nohup /home/ubuntu/tomcat/tomcat-as-code/bin/startup.sh && sleep
+        5
+      stopCommand: /home/ubuntu/tomcat/tomcat-as-code/bin/shutdown.sh && sleep 5
+      children:
+      - name: tomcat.vh
+        type: tomcat.VirtualHost
+    - name: sql-db
+      type: sql.PostgreSqlClient
+      username: scott
+      password: !value "Infrastructure_AsCode_host_vm_sql_db_password"
+      postgreSqlHome: /usr
+      databaseName: petclinicDev
+    - name: testRunner
+      type: smoketest.Runner
+- directory: Infrastructure/Prod
+  children:
+  - name: host-vm
+    type: overthere.SshHost
+    os: UNIX
+    address: deployit.vm
+    username: ubuntu
+    password: !value "Infrastructure_Prod_host_vm_password"
+    children:
+    - name: sql-db
+      type: sql.PostgreSqlClient
+      username: scott
+      password: !value "Infrastructure_Prod_host_vm_sql_db_password"
+      postgreSqlHome: /usr
+      databaseName: petclinicDev
+    - name: tomcat
+      type: tomcat.Server
+      home: /home/ubuntu/tomcat/tomcat-as-code
+      startCommand: nohup /home/ubuntu/tomcat/tomcat-as-code/bin/startup.sh && sleep
+        5
+      stopCommand: /home/ubuntu/tomcat/tomcat-as-code/bin/shutdown.sh && sleep 5
+      children:
+      - name: tomcat.vh
+        type: tomcat.VirtualHost
+    - name: testRunner
+      type: smoketest.Runner
+- name: Infrastructure/localhost
+  type: overthere.LocalHost
+  os: UNIX
+- name: Infrastructure/proxy
+  type: overthere.HttpProxy
+  address: mmm

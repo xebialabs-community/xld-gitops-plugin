@@ -1,0 +1,74 @@
+---
+apiVersion: xl-deploy/v1
+kind: Environments
+spec:
+- directory: Environments/Dev
+  children:
+  - name: Tomcat-Dev-AsCode
+    type: udm.Environment
+    members:
+    - Infrastructure/AsCode/host-vm/tomcat/tomcat.vh
+    - Infrastructure/AsCode/host-vm/tomcat
+    - Infrastructure/AsCode/host-vm/testRunner
+    - Infrastructure/AsCode/host-vm
+    - Infrastructure/AsCode/host-vm/sql-db
+    dictionaries:
+    - Environments/Dev/AsCode/PetClinic Dictionary
+    - Environments/Dev/AsCode/PetClinic DB Dictionary
+  - directory: AsCode
+    children:
+    - name: PetClinic DB Dictionary
+      type: udm.Dictionary
+      entries:
+        tomcat.DataSource.context: petclinic
+        tomcat.DataSource.driverClassName: com.mysql.jdbc.Driver
+        tomcat.DataSource.username: scott
+        tomcat.DataSource.url: jdbc:mysql://localhost/petclinic
+      encryptedEntries:
+        tomcat.DataSource.password: !value "Environments_Dev_AsCode_PetClinic_DB_Dictionary_encryptedEntries_tomcat_DataSource_password"
+    - name: PetClinic Dictionary
+      type: udm.Dictionary
+      entries:
+        timeout: "30"
+        smoke.test.url: http://deployit.vm:13080/petclinic/index.jsp
+        tests2.ExecutedHttpRequestTest.url: '{{smoke.test.url}}'
+        logLevel: DEBUG
+        logRootLevel: DEBUG
+        logFilePath: /dev/null
+        title: devops
+        TITLE: devops
+- directory: Environments/Prod
+  children:
+  - directory: AsCode
+    children:
+    - name: PetClinic DB Dictionary
+      type: udm.Dictionary
+      entries:
+        tomcat.DataSource.context: petclinic
+        tomcat.DataSource.driverClassName: com.mysql.jdbc.Driver
+        tomcat.DataSource.username: scott
+        tomcat.DataSource.url: jdbc:mysql://localhost/petclinic
+      encryptedEntries:
+        tomcat.DataSource.password: !value "Environments_Prod_AsCode_PetClinic_DB_Dictionary_encryptedEntries_tomcat_DataSource_password"
+    - name: PetClinic Dictionary
+      type: udm.Dictionary
+      entries:
+        timeout: "30"
+        smoke.test.url: http://deployit.vm:13080/petclinic/index.jsp
+        tests2.ExecutedHttpRequestTest.url: '{{smoke.test.url}}'
+        logFilePath: /dev/null
+        title: devops
+        TITLE: devops
+        logLevel: ERROR
+        logRootLevel: ERROR
+  - name: Tomcat-Prod-AsCode
+    type: udm.Environment
+    members:
+    - Infrastructure/Prod/host-vm
+    - Infrastructure/Prod/host-vm/sql-db
+    - Infrastructure/Prod/host-vm/tomcat
+    - Infrastructure/Prod/host-vm/tomcat/tomcat.vh
+    - Infrastructure/Prod/host-vm/testRunner
+    dictionaries:
+    - Environments/Prod/AsCode/PetClinic Dictionary
+    - Environments/Prod/AsCode/PetClinic DB Dictionary

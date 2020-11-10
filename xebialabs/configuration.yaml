@@ -1,0 +1,24 @@
+---
+apiVersion: xl-deploy/v1
+kind: Configuration
+spec:
+- directory: Configuration/gitops
+  children:
+  - name: deploy petclinic to dev
+    type: gitops.Deployment
+    enabled: false
+    repository: Configuration/gitops/petclinic repository
+    branch: master
+    latestCommitId: 'fatal: impossible d''accéder à ''https://github.com/bmoussaud/petclinic-gitops.git/'' :
+      Could not resolve host: github.com'
+    path: ./petclinic.yaml
+  - name: deploy petclinic to prod
+    type: gitops.Deployment
+    enabled: false
+    schedule: '*/15 * * * * *'
+    repository: Configuration/gitops/petclinic repository
+    branch: prod
+    path: ./petclinic.yaml
+  - name: petclinic repository
+    type: gitops.GitRepository
+    url: https://github.com/bmoussaud/petclinic-gitops.git
