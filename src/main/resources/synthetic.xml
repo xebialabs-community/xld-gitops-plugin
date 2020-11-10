@@ -19,7 +19,6 @@ Note: If you modify this file, you must restart the XL Deploy server.
     <property name="url"/>
     <property name="username" required="false"/>
     <property name="password" required="false" password="true"/>
-    <property name="host" referenced-type="overthere.Host" kind="ci" description="use this host to run all the commands" />
   </type>
 
   <type type="gitops.Deployment" extends="schedule.StepJob">

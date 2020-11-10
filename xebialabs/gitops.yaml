@@ -1,0 +1,22 @@
+---
+apiVersion: xl-deploy/v1
+kind: Configuration
+spec:
+- directory: Configuration/gitops
+  children:
+  - name: deploy petclinic to dev
+    type: gitops.Deployment
+    enabled: true
+    repository: Configuration/gitops/petclinic
+    branch: master
+    path: ./petclinic.yaml
+  - name: deploy petclinic to prod
+    type: gitops.Deployment
+    enabled: false
+    schedule: '*/15 * * * * *'
+    repository: Configuration/gitops/petclinic
+    branch: prod
+    path: ./petclinic.yaml
+  - name: petclinic
+    type: gitops.GitRepository
+    url: https://github.com/bmoussaud/petclinic-gitops.git

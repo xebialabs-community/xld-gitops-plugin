@@ -11,6 +11,7 @@
 import json
 import sys
 from overtherepy import OverthereHostSession
+from com.xebialabs.overthere import OperatingSystemFamily
 from com.google.common.io import Resources
 from java.nio.charset import Charset
 from string import Template
@@ -27,7 +28,7 @@ class XebiaLabsCLI(object):
         self.repository = self.job.repository
 
     def apply(self) :
-        with OverthereHostSession(self.repository.host) as session:
+        with self._new_session() as session:
             data_str = self.generate_content('gitops/deploy.sh.template')
             remote_file = session.upload_text_content_to_work_dir(data_str,'xl_apply.sh', executable=True)
             self._execute(session, remote_file.path)
@@ -75,9 +76,14 @@ class XebiaLabsCLI(object):
         #print "------------------------------"
         return content
 
+    def _new_session(self):
+        localopts = LocalConnectionOptions(os=OperatingSystemFamily.UNIX)
+        localhost = OverthereHost(localopts)
+        return OverthereHostSession(localhost)
+
 
     def run(self,command_line, raise_on_fail=False):
-        session = OverthereHostSession(self.repository.host)
+        session = self._new_session()
         #print command_line
         response = session.execute(command_line, suppress_streaming_output=True, check_success=False)
         if response.rc == 0:

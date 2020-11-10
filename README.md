@@ -12,11 +12,9 @@
 
 ## Preface
 
-This document describes the functionality provided by the XL Deploy|Release Description|Interface plugin.
+This document describes the functionality provided by the XL Deploy plugin.
 
 See the [XL Deploy reference manual](https://docs.xebialabs.com/xl-deploy) for background information on XL Deploy and deployment automation concepts.  
-or  
-See the [XL Release reference manual](https://docs.xebialabs.com/xl-release) for background information on XL Release and release automation concepts.  
 
 ## Overview
 
