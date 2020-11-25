@@ -26,7 +26,7 @@ Note: If you modify this file, you must restart the XL Deploy server.
     <property name="repository" kind="ci" referenced-type="gitops.GitRepository"/>
     <property name="branch"/>
     <property name="latestCommitId" required="false" description="SHA1 hash of the commit"/>
-    <property name="path" />
+    <property name="path" description="the path to the yaml file to apply" />
     <method name="executeJob"  label="Apply" delegate="jythonScript" script="gitops/deploy.py"/>
   </type>
 </synthetic>

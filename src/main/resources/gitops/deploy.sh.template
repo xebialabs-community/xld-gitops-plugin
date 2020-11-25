@@ -10,7 +10,7 @@ fi
 git clone ${job_repository_url} $LAST_COMMIT
 cd $LAST_COMMIT
 git checkout ${job_branch}
-xl --config ./config.yaml apply -f ${job_path}
+xl --config ./config.yaml apply -s -p -f ${job_path}
 
 
 
